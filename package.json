@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "TOP Project - Tic-Tac-Toe Games",
   "main": "index.js",
-  "homepage": "https://github.com/TlonUqbar/tic-tac-toe/",
+  "homepage": "https://tlonuqbar.github.io/tic-tac-toe/",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode production",
