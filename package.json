@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "description": "TOP Project - Tic-Tac-Toe Games",
   "main": "index.js",
+  "homepage": "https://github.com/TlonUqbar/tic-tac-toe/",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
+    "build": "webpack --mode production",
     "dev": "webpack serve",
     "watch": "webpack --watch",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
   "keywords": [],
