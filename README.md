@@ -34,3 +34,22 @@ Create a Tic-Tac-Toe game that you can play in the browser.
 
 
 ### Running the code
+
+This project uses Webpack, so it has to run scripts to get the build ready to deploy in production.
+
+
+This is annoying. 
+
+After some googling and trial and error, I found out that there is a specific way to deploy in github pages.
+
+I needed to install `npm install gh-pages --save-dev` and then add the command in the package.json file `"deploy": "gh-pages -d dist"
+
+So now I have to run yet another script.
+
+Somebody, please tell how does this make things better?
+
+```
+> npm run deploy # for github page
+> npm run build  # for production 
+> npm run dev    # for local dev
+```
