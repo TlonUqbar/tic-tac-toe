@@ -9,7 +9,6 @@
     "build": "webpack --mode production",
     "dev": "webpack serve",
     "watch": "webpack --watch",
-    "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
   "keywords": [],
