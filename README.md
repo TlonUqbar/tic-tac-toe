@@ -1,8 +1,10 @@
 # Tic-Tac-Toe
 Tic-Tac-Toe Game - This project is part of The Odin Project foundation's JavaScript curriculum.
 
+
+
 ## Goal:
-Create a Tic-Tac-Toe game that you can play in the brower.
+Create a Tic-Tac-Toe game that you can play in the browser.
 
 ### Raw Instructions / Requirements
 
@@ -29,3 +31,6 @@ Create a Tic-Tac-Toe game that you can play in the brower.
 
 
 
+
+
+### Running the code

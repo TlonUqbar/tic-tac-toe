@@ -15,13 +15,19 @@ module.exports = {
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
-      }
+      },
+      // {
+      //   test:  /\.(woff(2)?|ttf|eot|otf|svg)(\?v=\d+\.\d+\.\d+)?$/,
+      //   use: {
+      //     loader: 'url-loader'
+      //   }
+      // }
     ]
   },
   plugins: [ 
     new HtmlWebpackPlugin({
       template:  './src/index.html',
-      filename: '../index.html',
+      filename: 'index.html'
     }), 
     new BundleAnalyzerPlugin()],
   devServer: {
