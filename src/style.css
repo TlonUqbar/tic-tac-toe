@@ -8,10 +8,10 @@
   --color3: rgba(238, 195, 220, 1);
   --color4: rgba(247, 202, 213, 1);
   --color5: rgb(76, 78, 82);
-  --land-top: rotateX(-90deg);
-  --land-bottom:  rotateX(90deg);
-  --land-right:  rotateY(-90deg);
-  --land-left:  rotateY(90deg);
+  --land-top: rotateX(90deg);
+  --land-bottom:  rotateX(-90deg);
+  --land-right:  rotateY(90deg);
+  --land-left:  rotateY(-90deg);
   --land-front:  rotateY(0deg);
   --land-back:  rotateY(180deg);
 }
@@ -131,7 +131,7 @@ body{
 @keyframes spin7 {
   from { transform: rotate3d(0, 0, 0, 0); }
   80% { transform: rotate3d(-1, 1, 0, 720deg); }
-  to { transform: var(--land-left); } 
+  to { transform: var(--land-bottom); } 
 }
 
 @keyframes spin8 {
@@ -227,13 +227,15 @@ body{
   text-align: center;
 }
 
-.green{
+.score{ color:rgb(16, 206, 29);}
+
+/* .green{
   background-color: rgb(160, 218, 89) !important;
 }
 
 .red{
  background-color: rgb(233, 142, 142) !important;
-}
+} */
 
 .token-o{
   color: rgb(36, 100, 237);
@@ -256,32 +258,32 @@ body{
 }
 
 .cube_hover:hover{
-  box-shadow: 0 5px 25px  rgb(255, 247, 14),  5px 0 25px  rgb(255, 247, 14);
+  box-shadow: 0 5px 25px rgb(255, 247, 14), 5px 0 25px  rgb(255, 247, 14);
 }
 
 
 
-.one{
+.one, .spin1, .front-face {
   animation: spin1 2s 1 ease-in-out forwards;
 }
 
-.two{
+.two, .spin2, .back-face {
   animation: spin2 2s 1 ease-in-out forwards;
 }
 
-.three{
+.three, .spin3, .right-face{
   animation: spin3 2s 1 ease-in-out forwards;
 }
 
-.four{
+.four, .spin4, .leftt-face{
   animation: spin4 2s 1 ease-in-out forwards;
 }
 
-.five{
+.five, .spin5, .top-face{
   animation: spin5 2s 1 ease-in-out forwards;
 }
 
-.six{
+.six, .spin6, .bottom-face{
   animation: spin6 2s 1 ease-in-out forwards;
 }
 
@@ -298,6 +300,10 @@ body{
 }
 
 
+.intro{ animation: startAnimation 2s 1 ease-in-out forwards; }
+
+.score{ animation: spin7 2s 1 ease-in-out forwards;}
+
 .face {
   position: absolute;
   width: 100%;
@@ -312,9 +318,10 @@ body{
   align-content: center;
   justify-content:center ;
   flex-direction: column;
-  border: 6px solid rgba(44, 44, 17, 0.631); 
+  /* border: 6px solid rgba(44, 44, 17, 0.631);  */
+  border: 6px solid  rgba(91, 86, 78, 1);
   border-radius: 8px;
-  background-color: white;
+  background-color: rgba(24, 26, 27, 1);
 }
 
 

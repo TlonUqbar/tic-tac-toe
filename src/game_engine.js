@@ -10,10 +10,7 @@ function Cell() {
 
   const getToken = () => token;
 
-  return {
-    setToken,
-    getToken
-  };
+  return { setToken, getToken };
 }
 
 
@@ -60,27 +57,18 @@ const Board = ( function GameBoard() {
       }
     }
       
-    return {
-      addMove,
-      getBoard,
-      displayBoard,
-      displayBoardFlat,
-      resetBoard
-    };
-
+    return { addMove, getBoard, displayBoard, displayBoardFlat, resetBoard };
   }
 )()
 
 
 // Players Factory wrapped in IIFE
 const Players = (function Players() {
-  const players = [{name: "Player 1", token: "O", type: "Computer"}, {name: "Player 2", token: "X", type: "Computer"}]
+  const players = [{name: "Player 1", token: "O", type: "Human"}, {name: "Player 2", token: "X", type: "Computer"}]
   
   const getPlayers = () => players;
   
-  return{
-    getPlayers
-  }
+  return { getPlayers }
 
 })()
 
@@ -99,11 +87,7 @@ const Active = (function ActivePlayer() {
   const getActivePlayer = () => { return activePlayer }
   const setActivePlayer = (player) => { activePlayer = player }
   
-  return {
-    getActivePlayer,
-    changeActivePlayer,
-    setActivePlayer
-  }
+  return { getActivePlayer, changeActivePlayer, setActivePlayer }
 })()
 
 
@@ -116,13 +100,13 @@ const Score = ( function ScoreBoard() {
   const updateScore = (player) => {
     if( player.name === scores[0].name ) {
       scores[0].points = scores[0].points + 1; 
-      globalScore[0] = ( scores[0].points )
-
+      globalScore[0] = ( scores[0].points );
+      winner = player;
     } else {
       scores[1].points = scores[1].points + 1;
-      globalScore[1] = ( scores[1].points )
+      globalScore[1] = ( scores[1].points );
+      winner = player;
     }
-    winner = player
   }
 
   const getGlobalScore = () => { return globalScore }
@@ -130,13 +114,7 @@ const Score = ( function ScoreBoard() {
   const showScore = () => { console.log(globalScore)   }
   const getWinner = () => { return winner } 
 
-  return{
-    updateScore,
-    showScore,
-    getScores,
-    getGlobalScore,
-    getWinner
-  }
+  return { updateScore, showScore, getScores, getGlobalScore, getWinner }
 })()
 
 
@@ -144,12 +122,12 @@ const Score = ( function ScoreBoard() {
 const Status = ( function GameStatus(){
   let gameOver = false;
   let state = "playing";
-  let tie = false;
+  let winningLine = [];
 
   const getStatus = () => { return gameOver }
   const restart = () => {  gameOver = false; state = "playing" }
-  const isTie = () => { tie = true }
-
+  const getWinningLine = () => { return winningLine}
+  const getState = () => { return state }
 
   const winCombos = [ [0, 1, 2], [3, 4, 5], [6, 7, 8],[0, 3, 6], 
                       [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6], ];
@@ -166,6 +144,7 @@ const Status = ( function GameStatus(){
           if( count === 3 ) {
             gameOver = true;
             state = "over"
+            winningLine = line
           }
         }
       })
@@ -174,46 +153,55 @@ const Status = ( function GameStatus(){
     if( emptyCells === 0 && !gameOver ){
       gameOver = true;
       state = "tie"
+      console.table( Board.displayBoard() )
+      console.log("\nTIE!\n")
       gameReset()
     } 
-
     return gameOver
   }
 
-  return{
-    winCheck,
-    getStatus,
-    restart,
-    isTie
-  }
+  return { winCheck, getWinningLine, getStatus, getState, restart }
 })()
 
 
 
-// GameStatus Factory wrapped in IIFE
-const Controller = (function GameController() {
-  console.log("Game Contorller initiated")
+// gameController - controls the game in the engine
+function gameController() {
+  // console.log("Game Contorller initiated")
   let count = 0
-  console.table( Board.displayBoard() )
-  while( !Status.getStatus() && count < 10 ) {
+  // console.table( Board.displayBoard() )
+  while(  count < 10 ) {
 
-    playerMoves()
-
-    if( Status.winCheck() ){
-      count++;
-      console.log(`***** WINNER!! ${Score.getWinner().name} - "${Score.getWinner().token}" *****`);   
-      console.table(Board.displayBoard())
-      Score.updateScore(Active.getActivePlayer() )
-      console.log("Score", Score.getGlobalScore())
-      gameReset()
-    } else {
-      Active.changeActivePlayer();
+    switch ( Status.getState() ){
+      case "playing": 
+        playerMoves();
+        Status.winCheck();
+        Active.changeActivePlayer();
+          break;
+      case "tie": 
+        Status.winCheck()
+        break;
+      case "over":
+        count++;
+        winnerFound();
+          break;
+        default: 
+          break;
     }
   }
-})()
+}
 
+function winnerFound(){
+  Score.updateScore(Active.getActivePlayer() )
+  console.table(Board.displayBoard())
+  console.log(`***** WINNER!! ${Score.getWinner().name} - "${Score.getWinner().token}" *****`);   
+  console.log("Score", Score.getGlobalScore())
+  console.log("winnig line", Status.getWinningLine())
+  gameReset()
+}
 
 function playerMoves() {
+  console.table( Board.displayBoard() )
   if( Active.getActivePlayer().type === "Computer" ) {  
     computerPlayer()
   } else {
@@ -248,4 +236,17 @@ function computerPlayer() {
 }
 
 
+function promptUser() {
 
+  Board.addMove(row, col, Active.getActivePlayer())
+}
+
+
+module.exports = {
+  Board, Cell, 
+  Players, Active, 
+  Score, Status, 
+  gameController, playerMoves, 
+  computerPlayer, promptUser, 
+  gameReset
+}
