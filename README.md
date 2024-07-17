@@ -48,9 +48,23 @@ So now I have to run yet another script.
 
 Somebody, please tell how does this make things better?
 
+So if I want to run it manually, I have to first run `npm run build` to generate the production files . Then I have to run `npm run deploy` to generate the statics in the `dist` directory
+
 ```
 > npm run deploy # for github page
 > npm run build  # for production 
 > npm run dev    # for local dev
 ```
+
+Luckily, when modifying the `package.json` file, I also added predeploy command that the deploy script looks for and runs.  And that basically runs both scripts at once.
+
+```json
+    "build": "webpack --mode production",
+    "dev": "webpack serve",
+    "watch": "webpack --watch",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
+```
+
+
 

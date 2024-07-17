@@ -15,8 +15,8 @@ const placeToken = (e) => {
   e.target.textContent = "O"
   e.target.classList.add("token-o")
   // e.target.style = "background-color: grey";
-  e.currentTarget.parentNode.parentNode.style = "pointer-events: none;"
-  e.currentTarget.style = "pointer-events: ;"
+  e.currentTarget.parentNode.parentNode.style = "pointer-events: none; touch-action: none;"
+  e.currentTarget.style = "pointer-events: none; touch-action: none;"
   
 }
 
@@ -81,8 +81,8 @@ const scoresAnimation = (e) => {
     cube.querySelector(".back").textContent = "";
     setTimeout(() => {
       cube.classList = ["cube cube_hover score"]
-      cube.style = "pointer-events: none;"
-      cube.parentNode.parentNode.style = "pointer-events: none;"
+      cube.style = "pointer-events: none; touch-action: none;"
+      cube.parentNode.parentNode.style = "pointer-events: none; touch-action: none;"
       cube.querySelector(".bottom").textContent = message.shift();
       cube.classList.add("spin7");
       setTimeout(() => {
@@ -95,8 +95,8 @@ const scoresAnimation = (e) => {
     setTimeout(() => {
       cubes.forEach( (cube) => { 
         cube.addEventListener("click", placeToken);
-        cube.style = "pointer-events: all;" 
-        cube.parentNode.parentNode.style = "pointer-events: all;"
+        cube.style = "pointer-events: all; touch-action: all;" 
+        cube.parentNode.parentNode.style = "pointer-events: all; touch-action: all;"
       })
 
     }, 9500)
