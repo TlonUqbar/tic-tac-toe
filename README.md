@@ -28,9 +28,27 @@ Create a Tic-Tac-Toe game that you can play in the browser.
 6. Clean up the interface to allow players to put in their names, include a button to start/restart the game and add a display element that shows the results upon game end!
 
 ### Parsed Requirements and Tasks
+- [X] Setup project with Boiler plate HTML, CSS and JavaScript.
+- [X] Create git repo and make first commit.
+- [X] Have a little as possible global code.  Use Factories and IIFEs to achieve this. 
+- [X] The board is an array of type GameBoard. The Cells are going to store Player objects.
+- [X] Try to fit as much functionality into the GameBoard, Players, Game objects.  
+- [X] Read "Building a House from the Inside" for inspiration.
+- [X] Make a console version first.
+- [X] Make sure that your game is decoupled from the front-end or webpage.
+- [X] Interact with the DOM to place "O"'s and "X"'s on the board.
+- [X] Player should be able to click on a board square/cell and place their token there if it is empty.
+- [X] Prevent players from placing a move in a square that is already taken.
+- [X] Add interface to change the players names.
+- [X] Add a restart button.
+- [X] Show the scores
 
-
-
+#### Non-requirement Extras
+- [X] Animated board and cells using cubes
+- [X] Simple interface using the board only
+- [X] Display scores and messages on the board using animations
+- [X] Asynchronous functions to assist with animation timing synchronization 
+- [X] Abstracted all the game logic into a Game Engine module.
 
 
 ### Running the code

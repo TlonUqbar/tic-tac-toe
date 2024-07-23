@@ -59,32 +59,18 @@ const cubes = document.querySelectorAll(".cube")
 const p1 = game.Players.getPlayers()[0];
 
 
-const placeToken = (e) => {
-  let move = []
-
-  e.preventDefault();
-  e.target.textContent = "O"
-  e.target.classList.add("token-o")
-  e.currentTarget.parentNode.parentNode.classList.add("cell-no-hover")
-  e.currentTarget.classList.add("cube-no-hover");
-  move.push(e.currentTarget.dataset.row);
-  move.push(e.currentTarget.dataset.col);
-  gameLoop( move,  p1 );
-}
-
-cubes.forEach( (cube) => { cube.addEventListener("click", placeToken) })
-
 // GAME PLAY 
-function gameLoop( move, player ) {
+// This is the DOM Controller 
+function gameLoop(move, player) {
   // First check that there are empty cells
-  if( game.Status.movesLeft() > 0 ) {
-    placeMove( move, player );
+  if(game.Status.movesLeft() > 0) {
+    placeMove(move, player);
     // Check if the move is a winner
-    switch( game.Status.winCheck() ){
+    switch(game.Status.winCheck()){
       case true:  winnerFound(); break;
       case false: 
         game.Active.changeActivePlayer();
-        if ( game.Active.getActivePlayer().type === "Computer" ){
+        if(game.Active.getActivePlayer().type === "Computer"){
           getCPUMove(move, player)
         }
         break;
@@ -96,21 +82,40 @@ function gameLoop( move, player ) {
   }
 }
 
+// Human player move
+const placeToken = (e) => {
+  let move = []
 
+  e.preventDefault();
+  e.target.textContent = "O"
+  e.target.classList.add("token-o")
+  e.currentTarget.parentNode.parentNode.classList.add("cell-no-hover")
+  e.currentTarget.classList.add("cube-no-hover");
+  move.push(e.currentTarget.dataset.row);
+  move.push(e.currentTarget.dataset.col);
+  gameLoop(move,  p1);
+}
+
+cubes.forEach( (cube) => { cube.addEventListener("click", placeToken) })
+
+// Wrapper for Game Engine API
 function placeMove(move, player) {
   game.Board.addMove(...move, player)
 }
 
 // Computer plays a move
 function getCPUMove() {
-  const move = game.computerMove();
+  const move = game.computerMove(); // result is array
   
-  gameLoop( move[0], game.Players.getPlayers()[1] )
-  placeCPUToken( move[1]);
+  gameLoop(move[0], game.Players.getPlayers()[1])
+  placeCPUToken(move[1]);
 }
 
 
-// this code here allows targeting the DOM after CPU moves
+// This code here allows targeting the DOM after CPU moves
+// This moves in the opposite direction.
+// It gets a move from the game engine, 
+// then it find the location for the move in the Board/DOM 
 function placeCPUToken(move){
   cubes.forEach( (cube) => {
     if(cube.dataset.loc === `${move}`.toString()){
@@ -123,25 +128,24 @@ function placeCPUToken(move){
   })
 }
 
-
+// 
 async function winnerFound(){
   await sleep(5)
-  game.Score.updateScore(game.Active.getActivePlayer() )
+  // update scores
+  game.Score.updateScore(game.Active.getActivePlayer())
+  // save new scores in to message array
   let message = [ " ", " ", " ", `${game.Score.getScores()[0].points}`, "-", 
   `${game.Score.getScores()[1].points}`, " ", " ", " ",];
-  // console.table(game.Board.displayBoard())
-  // console.log(`***** WINNER!! ${game.Score.getWinner().name} - "${game.Score.getWinner().token}" *****`);   
-  // console.log("Score", game.Score.getGlobalScore())
   let win = game.Status.getLine();
-  await onlyLine(win)
-  displayScore(message);
+  await onlyLine(win)  // trigger animation for winning line
+  displayScore(message); 
 }
 
 
 async function tieFound(){
   await sleep(1252)
   const message = ["", "", "", "T", "I", "E", "", "", "",];
-  await fullBoard();
+  await fullBoard();  // trigger animation for no winner or tie
   game.gameReset();
   await sleep(2000);
   displayScore(message)  
@@ -158,12 +162,9 @@ async function gameIntro() {
     baseTime += 250;
     cube.classList = ["cube cube-no-hover"]
     cube.parentNode.parentNode.classList = ["cell cell-no-hover"];
+
     setTimeout(() => {
-      // clear content all other faces except the one facing fowards
-      cube.querySelector(".top").textContent = "";
-      cube.querySelector(".bottom").textContent = "";
-      cube.querySelector(".left").textContent = "";
-      cube.querySelector(".right").textContent = "";
+      // clear content all other faces except front
       if(message[0] === "T") {
         cube.querySelector(".back").classList.add("winner");
       } else {
@@ -175,70 +176,71 @@ async function gameIntro() {
       }
       cube.querySelector(".back").textContent = message.shift();
       cube.classList.add("intro");
-    }, baseTime );
+    }, baseTime);
+
     window.removeEventListener("load", gameIntro);
   })
 
   cubes.forEach( (cube) => {
     cube.classList.remove("cube-no-hover");
-    cube.parentNode.parentNode.classList.remove("cell-no-hover")
-  })
+    cube.parentNode.parentNode.classList.remove("cell-no-hover");
+  });
 
-  await toggleOverlay("off", 6001)
+  await toggleOverlay("off", 6001);
   boardReset();
 }
 
-
-window.addEventListener("load", gameIntro)
+window.addEventListener("load", gameIntro);
 
 // Animate only the Winning Line
 async function onlyLine(win) {
-  await toggleOverlay("on", 1)
-  await sleep(502)
+  await toggleOverlay("on");
+  await sleep(502);
+
   cubes.forEach( (cube) => {
-    cube.classList = ["cube cube-no-hover"]
+    cube.classList = ["cube cube-no-hover"];
     cube.parentNode.parentNode.classList = ["cell cell-no-hover"];
+
     for( let el of win){
       if(cube.dataset.loc === `${el}`.toString() ){
-        cube.classList.add("left-face") 
+        cube.classList.add("left-face") ;
         let face = cube.querySelector(".front");
         setTimeout( ()=>{
           face.classList = ["face front winner"];
-        }, 500)
+        }, 500);
       }
     }
-  })
-  await sleep(2002)
-  await toggleOverlay("off", 5)
+
+  });
+  await sleep(2002);
+  await toggleOverlay("off", 5);
 }
 
 // Animate whole board on TIE!
 async function fullBoard() {
-  await sleep(1003)
+  await sleep(1003);
+
   cubes.forEach( (cube) => {
-    cube.classList = ["cube cube-no-hover left-face"]
+    cube.classList = ["cube cube-no-hover left-face"];
     cube.parentNode.parentNode.classList = ["cell cell-no-hover"];
     setTimeout( ()=>{
       cube.querySelector(".front").classList = ["face front no-winner"];
-    }, 250)
+    }, 250);
   })
 }
 
 // Anime whole board during score annoncement
 async function displayScore(message){
-  await sleep(250)
+  await sleep(250);
   await toggleOverlay("on");
+
   cubes.forEach( (cube) => {
-    cube.querySelector(".top").textContent = "";
-    cube.querySelector(".bottom").textContent = "";
-    cube.querySelector(".left").textContent = "";
-    cube.querySelector(".right").textContent = "";
-    cube.classList = ["cube cube-no-hover"]
+    cube.classList = ["cube cube-no-hover"];
     cube.parentNode.parentNode.classList = ["cell cell-hover cell-no-hover"];
     cube.querySelector(".back").classList.add("scored");
     cube.querySelector(".back").textContent = message.shift();
     cube.classList.add("scores");
-  })
+  });
   await sleep(1002);
   setTimeout(() => {
     cubes.forEach( (cube) => {
@@ -249,7 +251,6 @@ async function displayScore(message){
   }, 2002 );
 
   game.gameReset();
-  // console.log("scores");
   await toggleOverlay("off", 1);
   boardReset();
 }
@@ -258,7 +259,7 @@ async function displayScore(message){
 // Animate whole board during board reset
 async function boardReset(){
   let baseTime = 1000;
-  // console.log("boardReset")
+
   await toggleOverlay("on");
   await sleep(2001);
 
@@ -266,46 +267,44 @@ async function boardReset(){
     baseTime += 150;
     cube.querySelector(".front").textContent = "";
     cube.classList.add("back-to-front"); 
+
     setTimeout( ()=> {
       const faces = cube.querySelectorAll(".face");
       const sides = ["front", "back", "top", "bottom", "left", "right"];
       cube.classList = ["cube cube-hover cube-no-hover"]
       cube.parentNode.parentNode.classList = ["cell cell-hover cell-no-hover"];
-      cube.querySelector(".top").textContent = "";
-      cube.querySelector(".bottom").textContent = "";
-      cube.querySelector(".left").textContent = "";
-      cube.querySelector(".right").textContent = "";
       cube.querySelector(".back").textContent = "";
 
       setTimeout( () => {
         faces.forEach( (face) => {
           let side = sides.shift();
           face.classList = [`face ${side}`];
-        })
-        cube.classList = ["cube cube-hover front-face"]
+        });
+        cube.classList = ["cube cube-hover front-face"];
         cube.parentNode.parentNode.classList = ["cell cell-hover"];
-      }, 500)    
-  
-    }, baseTime)
+      }, 500);
 
-  })
-  await sleep(1001)
-  await toggleOverlay("off", 3051)
+    }, baseTime);
+
+  });
+  await sleep(1001);
+  await toggleOverlay("off", 3051);
 }
 
-async function sleep(miliseconds){
-  // console.log("sleeping:", miliseconds)
-  return new Promise( (resolve) => setTimeout(resolve, miliseconds))
+// This function is a helper to assist in synchronizing execution thread 
+// with the animations by simulating a delay or pause in the execution
+async function sleep(milliseconds){
+  return new Promise( (resolve) => setTimeout(resolve, milliseconds));
 }
 
-
+// adds an overlay to prevent unwanted input during animation phase
+// removes the overlay when ready for input
 async function toggleOverlay(state, delay=0){
-  // console.log("toggle", state)
   const overlay = document.querySelector(".main-container");
   if (state === "on") {
     overlay.classList.toggle("overlay", true);
   } else {
-    await sleep(delay)
+    await sleep(delay);
     overlay.classList.toggle("overlay", false);
   }
 }
