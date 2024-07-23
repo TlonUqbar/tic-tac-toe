@@ -1,7 +1,7 @@
 {
   "name": "tic-tac-toe",
   "version": "1.0.0",
-  "description": "TOP Project - Tic-Tac-Toe Games",
+  "description": "TOP Project - Tic-Tac-Toe Game",
   "main": "index.js",
   "homepage": "https://tlonuqbar.github.io/tic-tac-toe/",
   "scripts": {

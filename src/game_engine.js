@@ -1,5 +1,4 @@
 
-
 // Cell Factory
 function Cell() {
   let token = "_";
