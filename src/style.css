@@ -134,9 +134,9 @@ body{
 
 /* dotted, dashed, solid, double, dot-dash, groove, ridge, inset, outset, wave, dot-dot-dash */
 .top { transform: rotateX(-90deg) translateZ(45px); }
-.bottom { transform: rotateX(90deg) translateZ(45px);  /* background-color: brown; */ } 
-.front { transform: rotateY(0deg) translateZ(45px); /* background-color: darkslategrey; */ }
-.back { transform: rotateY(180deg) translateZ(45px); /* background-color: cornflowerblue; */ }
+.bottom { transform: rotateX(90deg) translateZ(45px); } 
+.front { transform: rotateY(0deg) translateZ(45px);  }
+.back { transform: rotateY(180deg) translateZ(45px);  }
 .right { transform: rotateY(-90deg) translateZ(45px); }
 .left { transform: rotateY(90deg) translateZ(45px); }
 
@@ -148,9 +148,6 @@ body{
 .scored{ color:rgb(206, 184, 16);}
 
 
-
-
-
 /* Animations for cube rotations by name */
 
 .back-to-front{ animation: backToFront 1s 1 ease-in-out forwards !important;  }
@@ -159,19 +156,13 @@ body{
 .two, .spin2, .back-face { animation: spin2 2s 1 ease-in-out forwards; }
 .four, .spin4, .left-face{ animation: spin4 1s 1 ease-in-out forwards; }
 .seven, .spin7, .scores { animation: spin7 1s 1 ease-in-out forwards; }
+.score{ animation: spin7 1s 1 ease-in-out forwards;}
 
 /* .three, .spin3, .right-face{ animation: spin3 2s 1 ease-in-out forwards; } */
 /* .five, .spin5, .top-face{ animation: spin5 2s 1 ease-in-out forwards; } */
-
 /* .six, .spin6, .bottom-face{ animation: spin6 2s 1 ease-in-out forwards; } */
-
 /* .eight, .spin8 { animation: spin8 2s 1 ease-in-out forwards; } */
 /* .nine, .spin9 { animation: spin9 2s 1 ease-in-out forwards !important; } */
-
-
-.score{ animation: spin7 1s 1 ease-in-out forwards;}
-
-
 
 
 /* ***  Animations:  Keyframes *** */
@@ -243,13 +234,15 @@ body{
   to { transform: var(--land-bottom); }
 }
 
-
+/*  Ends on back or 2*/
 @keyframes spin7 {
   from { transform: rotate3d(0, 0, 0, 0); }
   80% { transform: rotate3d(-1, -1, 0, 720deg); }
   to { transform: var(--land-back); } 
 }
 
+
+/*  Ends on right or 3*/
 @keyframes spin8 {
   from { transform: rotate3d(0, 0, 0, 0); }
   20% { transform: rotate3d(1, 0, 0, 90deg); }
@@ -260,7 +253,7 @@ body{
   
 }
 
-/*  Ends on right */
+/*  Ends on left o 4 */
 @keyframes spin9 {
   from { transform: rotate3d(0, 0, 0, 0); }
   20% { transform: rotate3d(1, 1, 1, 90deg); }
@@ -270,6 +263,7 @@ body{
   to { transform: var(--land-left); }  
 }
 
+/*  Ends on front or 1 */
 @keyframes spin10 {
   from { transform: rotate3d(0, 0, 0, 0); }
   80% { transform: rotate3d(-1, 1, 0, 720deg); }
@@ -328,7 +322,6 @@ body{
   50% { transform: rotate3d(-1, 2, 0, 360deg); }
   to { transform: var(--land-front); }
 }
-
 
 
 
