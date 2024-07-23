@@ -64,9 +64,12 @@ const Players = (function Players() {
   const players = [{name: "Player 1", token: "O", type: "Human", points: "0"}, 
                    {name: "Player 2", token: "X", type: "Computer", points: "0"}]
   
+  const changePlayer1Name = (newName) => { players[0]["name"] = newName; }
+  const changePlayer2Name = (newName) => { players[1]["name"] = newName; }
+
   const getPlayers = () => players;
   
-  return { getPlayers }
+  return { getPlayers, changePlayer1Name, changePlayer2Name };
 })()
 
 
