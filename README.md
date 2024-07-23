@@ -35,29 +35,19 @@ Create a Tic-Tac-Toe game that you can play in the browser.
 
 ### Running the code
 
-This project uses Webpack, so it has to run scripts to get the build ready to deploy in production.
+##### Running on Github Pages:
+This project uses Webpack, so you can't just push your commits to github and expect it to deploy flawlessly to github pages.  You have to jump through some extra hoops for that to work, basically you have to remember to run some scripts before you are reday to make your commit.
+
+Yes, this is annoying. 
+
+I still forget to do it sometimes, and I have to add another commit with just the `dist` files.
 
 
-This is annoying. 
+Googling revealed that there is already an npm package to help with this, but I still have doubts as to how much it helps.  Anyway, the package is called `gh-pages`.
 
-After some googling and trial and error, I found out that there is a specific way to deploy in github pages.
+Install it via `npm install gh-pages --save-dev` and then add the following script commands to the package.json file `"predeploy": "npm run build", "deploy": "gh-pages -d dist"`
 
-I needed to install `npm install gh-pages --save-dev` and then add the command in the package.json file `"deploy": "gh-pages -d dist"
-
-So now I have to run yet another script.
-
-Somebody, please tell how does this make things better?
-
-So if I want to run it manually, I have to first run `npm run build` to generate the production files . Then I have to run `npm run deploy` to generate the statics in the `dist` directory
-
-```
-> npm run deploy # for github page
-> npm run build  # for production 
-> npm run dev    # for local dev
-```
-
-Luckily, when modifying the `package.json` file, I also added predeploy command that the deploy script looks for and runs.  And that basically runs both scripts at once.
-
+The package.json file script section should look something like this.
 ```json
     "build": "webpack --mode production",
     "dev": "webpack serve",
@@ -65,6 +55,13 @@ Luckily, when modifying the `package.json` file, I also added predeploy command 
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
 ```
+
+This basically runs both the production and github deploy scripts together.  Once it is done building you may have to stop the production server.
+
+Go to your github repo and do a `git status` and the add all the newly modified files with `git add <file>` and then do your commit `git commit` and then finally push your commit to github `git push`. 
+
+
+
 
 
 

@@ -7,7 +7,7 @@
   --color2: rgb(40, 35, 89);
   --color3: rgba(238, 195, 220, 1);
   --color4: rgba(247, 202, 213, 1);
-  --color5: rgb(76, 78, 82);
+  --color5: rgb(53, 81, 138);
   --land-top: rotateX(90deg);
   --land-bottom:  rotateX(-90deg);
   --land-right:  rotateY(90deg);
@@ -20,6 +20,7 @@
   box-sizing: border-box;
 }
 
+
 body{
   background-color: var(--color2);
   color: var(--color5);
@@ -29,13 +30,26 @@ body{
   font-weight: bold;
 }
 
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 98dvh;
+  width: 100%;
+  z-index: 100;
+  pointer-events: none;
+  touch-action: none;
+}
+
 
 .main-container{
-  display: flex;
+  position: relative;
   justify-content: center;
   align-content: center  ;
-  min-height: 100dvh;
+  min-height: 98dvh;
+  z-index: 4;
 }
+
 
 .grid-item{
   display: grid;
@@ -49,11 +63,113 @@ body{
   gap: 35px;
 }
 
-
-.board-area{
+.cell{
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
   width: 100px;
   height: 100px;
 }
+
+.cell-hover:hover{
+  animation: shake 0.9s 10 ease-in-out;
+}
+
+.cell-no-hover{
+  pointer-events: none;
+  touch-action: none;
+}
+
+.cubetainer{
+  width: 100px;
+  height: 100px;
+  perspective: 1000px;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  flex-direction: row;
+  text-align: center;
+}
+
+.cube {
+  transform-style: preserve-3d;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  font-size: 48px;
+}
+
+.cube-hover:hover{
+  box-shadow: 0 5px 25px rgb(255, 247, 14), 5px 0 25px  rgb(255, 247, 14);
+  cursor: grab;
+}
+
+.cube-no-hover{
+  pointer-events: none;
+  touch-action: none;
+}
+
+.face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  color: darkslategray;
+}
+
+
+.top, .bottom, .back, .front, .left, .right{
+  /* display: flex; */
+  align-content: center;
+  justify-content:center ;
+  flex-direction: column;
+  /* border: 6px solid rgba(44, 44, 17, 0.631);  */
+  /* border: 8px double  rgba(91, 86, 78, 1); */
+  border-radius: 8px;
+  background-color: rgba(24, 26, 27, 1);
+  /* border: 6px outset  rgb(151, 199, 218); */
+  border: 6px outset  rgb(165, 162, 156);
+}
+
+/* dotted, dashed, solid, double, dot-dash, groove, ridge, inset, outset, wave, dot-dot-dash */
+.top { transform: rotateX(-90deg) translateZ(45px); }
+.bottom { transform: rotateX(90deg) translateZ(45px);  /* background-color: brown; */ } 
+.front { transform: rotateY(0deg) translateZ(45px); /* background-color: darkslategrey; */ }
+.back { transform: rotateY(180deg) translateZ(45px); /* background-color: cornflowerblue; */ }
+.right { transform: rotateY(-90deg) translateZ(45px); }
+.left { transform: rotateY(90deg) translateZ(45px); }
+
+
+.token-o{ color: rgb(36, 100, 237); }
+.token-x{ color: rgb(180, 37, 161); }
+.winner{ color: rgb(44, 180, 37); }
+.no-winner { color: rgb(127, 47, 15);}
+.scored{ color:rgb(206, 184, 16);}
+
+
+
+
+
+/* Animations for cube rotations by name */
+
+.back-to-front{ animation: backToFront 1s 1 ease-in-out forwards !important;  }
+.intro{ animation: startAnimation 1s 1 ease-in-out forwards; }
+.one, .spin1, .front-face { animation: spin1 1s 1 ease-in-out forwards; }
+.two, .spin2, .back-face { animation: spin2 2s 1 ease-in-out forwards; }
+.four, .spin4, .left-face{ animation: spin4 1s 1 ease-in-out forwards; }
+.seven, .spin7, .scores { animation: spin7 1s 1 ease-in-out forwards; }
+
+/* .three, .spin3, .right-face{ animation: spin3 2s 1 ease-in-out forwards; } */
+/* .five, .spin5, .top-face{ animation: spin5 2s 1 ease-in-out forwards; } */
+
+/* .six, .spin6, .bottom-face{ animation: spin6 2s 1 ease-in-out forwards; } */
+
+/* .eight, .spin8 { animation: spin8 2s 1 ease-in-out forwards; } */
+/* .nine, .spin9 { animation: spin9 2s 1 ease-in-out forwards !important; } */
+
+
+.score{ animation: spin7 1s 1 ease-in-out forwards;}
 
 
 
@@ -70,8 +186,8 @@ body{
   from { transform: rotate3d(0, 0, 0, 0); }
   20% { transform: rotate3d(1, 0, 0, 90deg); }
   40% { transform: rotate3d(0, 1, 0, 180deg); }
-  60% { transform: rotate3d(1, 1, 0, 270deg); }
-  80% { transform: rotate3d(1, 1, 1, 360deg); }
+  60% { transform: rotate3d(0, 0, -1, 270deg); }
+  80% { transform: rotate3d(1, -1, 1, 360deg); }
   to { transform:  var(--land-front); } 
 }
 
@@ -103,7 +219,7 @@ body{
   40% { transform: rotate3d(0, 1, 1, 180deg); }
   60% { transform: rotate3d(1, 0, 0, 270deg); }
   80% { transform: rotate3d(0, 1, 0, 360deg); }
-  to { transform: var(--land-left); }
+  to { transform: var(--land-front); }
 
 }
 
@@ -130,8 +246,8 @@ body{
 
 @keyframes spin7 {
   from { transform: rotate3d(0, 0, 0, 0); }
-  80% { transform: rotate3d(-1, 1, 0, 720deg); }
-  to { transform: var(--land-bottom); } 
+  80% { transform: rotate3d(-1, -1, 0, 720deg); }
+  to { transform: var(--land-back); } 
 }
 
 @keyframes spin8 {
@@ -152,6 +268,12 @@ body{
   60% { transform: rotate3d(0, 1, 0, 270deg); }
   80% { transform: rotate3d(0, 0, 1, 360deg); }
   to { transform: var(--land-left); }  
+}
+
+@keyframes spin10 {
+  from { transform: rotate3d(0, 0, 0, 0); }
+  80% { transform: rotate3d(-1, 1, 0, 720deg); }
+  to { transform: var(--land-front); } 
 }
 
 @keyframes shake {
@@ -201,136 +323,13 @@ body{
   to { transform: var(--land-back); }
 }
 
-
-.placeholder{
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  align-items: center;
-  width: 120px;
-  height: 120px;
-  
-}
-
-.placeholder_hover:hover{
-  animation: shake 0.9s 10 ease-in-out;
-}
-
-.container{
-  width: 100px;
-  height: 100px;
-  perspective: 1000px;
-  display: flex;
-  justify-items: center;
-  align-items: center;
-  flex-direction: row;
-  text-align: center;
-}
-
-.score{ color:rgb(16, 206, 29);}
-
-/* .green{
-  background-color: rgb(160, 218, 89) !important;
-}
-
-.red{
- background-color: rgb(233, 142, 142) !important;
-} */
-
-.token-o{
-  color: rgb(36, 100, 237);
-}
-
-.token-x{
-  color: rgb(180, 37, 161);
-}
-
-.winner{
-  color: rgb(44, 180, 37);
-}
-
-.cube {
-  transform-style: preserve-3d;
-  width: 100%;
-  height: 100%;
-  position: relative;
-  font-size: 48px;
-}
-
-.cube_hover:hover{
-  box-shadow: 0 5px 25px rgb(255, 247, 14), 5px 0 25px  rgb(255, 247, 14);
+@keyframes backToFront {
+  from { transform: var(--land-back); }
+  50% { transform: rotate3d(-1, 2, 0, 360deg); }
+  to { transform: var(--land-front); }
 }
 
 
-
-.one, .spin1, .front-face {
-  animation: spin1 2s 1 ease-in-out forwards;
-}
-
-.two, .spin2, .back-face {
-  animation: spin2 2s 1 ease-in-out forwards;
-}
-
-.three, .spin3, .right-face{
-  animation: spin3 2s 1 ease-in-out forwards;
-}
-
-.four, .spin4, .leftt-face{
-  animation: spin4 2s 1 ease-in-out forwards;
-}
-
-.five, .spin5, .top-face{
-  animation: spin5 2s 1 ease-in-out forwards;
-}
-
-.six, .spin6, .bottom-face{
-  animation: spin6 2s 1 ease-in-out forwards;
-}
-
-.seven{
-  animation: spin7 2s 1 ease-in-out forwards;
-}
-
-.eight{
-  animation: spin8 2s 1 ease-in-out forwards;
-}
-
-.nine{
-  animation: spin9 2s 1 ease-in-out forwards !important;
-}
-
-
-.intro{ animation: startAnimation 2s 1 ease-in-out forwards; }
-
-.score{ animation: spin7 2s 1 ease-in-out forwards;}
-
-.face {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-
-}
-
-
-.top, .bottom, .back, .front, .left, .right{
-  display: flex;
-  align-content: center;
-  justify-content:center ;
-  flex-direction: column;
-  /* border: 6px solid rgba(44, 44, 17, 0.631);  */
-  border: 6px solid  rgba(91, 86, 78, 1);
-  border-radius: 8px;
-  background-color: rgba(24, 26, 27, 1);
-}
-
-
-.top { transform: rotateX(-90deg) translateZ(45px); }
-.bottom { transform: rotateX(90deg) translateZ(45px); }
-.front { transform: rotateY(0deg) translateZ(45px); }
-.back { transform: rotateY(180deg) translateZ(45px); }
-.right { transform: rotateY(-90deg) translateZ(45px); }
-.left { transform: rotateY(90deg) translateZ(45px); }
 
 
 /*  *** CSS background  ***  */
