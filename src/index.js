@@ -310,20 +310,26 @@ async function toggleOverlay(state, delay=0){
 }
 
 
-const menu = (e) => {
+function menu(){
   let btnNav = document.querySelector('.btn-nav');
   let navContent = document.querySelector('.nav-content');
-  let scores = game.Score.getGlobalScore();
+  let scores = []
   let p1 = game.Players.getPlayers()[0];
   let p2 = game.Players.getPlayers()[1];
   let name1 = navContent.querySelector(".nav-p1-name");
   let name2 = navContent.querySelector(".nav-p2-name");
 
+  scores = game.Score.getGlobalScore();
+  // console.log(scored);
+  // console.log(game.Score.getGlobalScore());
+
   btnNav.addEventListener('click', function() {
+    // scored = `${game.Score.getGlobalScore()}`;
     navContent.classList.toggle('showNav');
     navContent.classList.toggle('hideNav');
     navContent.classList.remove('hidden');
     btnNav.classList.toggle('animated');
+    
   });
 
   navContent.querySelector(".nav-scores").textContent = `${scores[0]} - ${scores[1]}`;
@@ -343,5 +349,5 @@ const menu = (e) => {
   })
 }
 
-window.addEventListener('load', menu);
+document.addEventListener('click', menu);
 

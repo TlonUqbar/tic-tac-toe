@@ -96,12 +96,12 @@ const Score = ( function ScoreBoard() {
   const updateScore = (player) => {
     if( player.name === scores[0].name ) {
       scores[0].points = scores[0].points + 1; 
-      Players.getPlayers()[0].points =  ( scores[0].points )
+      Players.getPlayers()[0].points = ( scores[0].points )
       globalScore[0] = ( scores[0].points );
       winner = player;
     } else {
       scores[1].points = scores[1].points + 1;
-      Players.getPlayers()[1].points =  ( scores[1].points )
+      Players.getPlayers()[1].points = ( scores[1].points )
       globalScore[1] = ( scores[1].points );
       winner = player;
     }
