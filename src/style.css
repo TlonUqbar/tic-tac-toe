@@ -34,7 +34,7 @@ body{
   position: absolute;
   top: 0;
   left: 0;
-  height: 98dvh;
+  height: 92dvh;
   width: 100%;
   z-index: 100;
   pointer-events: none;
@@ -46,7 +46,7 @@ body{
   position: relative;
   justify-content: center;
   align-content: center  ;
-  min-height: 98dvh;
+  min-height: 92dvh;
   z-index: 4;
 }
 
@@ -385,3 +385,132 @@ body{
   50% { transform: translateY(300%) rotate(55deg); }
   to { transform: translateY(0%) rotate(-55deg); }
 }
+
+
+
+/*  Navigation or Hamburger Menu Slide */
+
+
+.nav {
+  position: relative;
+  width: auto;
+  display: inline-block;
+  border: none;
+  color: rgb(249, 179, 57);
+}
+
+.btn-nav {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: transparent;
+  border: none;
+  padding: 0px;
+  cursor: pointer;
+  z-index: 999;
+}
+
+.btn-nav:focus {
+  outline: 0;
+}
+
+.icon-bar {
+  display: block;
+  margin: 6px 0;
+  width: 35px;
+  height: 5px;
+  background-color: rgb(249, 179, 57);
+}
+
+.btn-nav:hover .icon-bar {
+  background-color: rgb(249, 179, 57);
+}
+
+.nav-content {
+  position: fixed;
+  top: -100%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0,0,0,.9);
+  display: block;
+  height: 100%;
+  z-index: 19;
+}
+
+.nav-item {
+  margin: 40px auto;
+  text-align: center;
+  color: rgb(249, 179, 57);
+}
+
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+  position: relative;
+  top: 10%;
+}
+
+.nav-scores{
+  color: rgb(44, 180, 37);
+  padding: 10px 0;
+}
+
+.nav-p1-name, .nav-p1-token, .nav-p1-points{
+  color: rgb(36, 100, 237);
+}
+
+.nav-p2-name, .nav-p2-token, .nav-p2-points{
+  color: rgb(180, 37, 161); 
+}
+
+
+.animated {
+  display: block;
+  margin: 0 auto;
+}
+
+.animated:hover .icon-bar,
+.animated:focus .icon-bar{
+  background-color: rgb(252, 163, 17);
+}
+
+.animated:focus {
+  cursor: pointer;
+  z-index: 999;
+}
+
+.middle {
+  margin: 0 auto;
+}
+
+.icon-bar {
+  transition: all .7s ease;
+  z-index: 999;
+}
+
+.animated .icon-bar {
+  z-index: 999;
+  background-color: rgb(252, 163, 17);
+}
+
+.animated .up {  transform: translateY(10px) rotateZ(45deg);}
+.animated .down { transform: translateY(-12px) rotateZ(-45deg); }
+.animated .middle { width: 0; }
+
+@keyframes showNav {
+  from { top: -100%; }
+  to { top: 0; }
+}
+
+.showNav { animation: showNav 1s ease forwards; }
+
+@keyframes hideNav {
+  from { top: 0; }
+  to { top: -100%;}
+}
+
+.hideNav { animation: hideNav 1s ease forwards; }
+
+.hidden { display: none; }

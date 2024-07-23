@@ -310,4 +310,42 @@ async function toggleOverlay(state, delay=0){
 }
 
 
+const menu = (e) => {
+  let btnNav = document.querySelector('.btn-nav');
+  let navContent = document.querySelector('.nav-content');
+  let scores = game.Score.getGlobalScore();
+  let p1 = game.Players.getPlayers()[0];
+  let p2 = game.Players.getPlayers()[1];
 
+  btnNav.addEventListener('click', function() {
+    navContent.classList.toggle('showNav');
+    navContent.classList.toggle('hideNav');
+    navContent.classList.remove('hidden');
+    btnNav.classList.toggle('animated');
+  });
+
+  navContent.querySelector(".nav-scores").textContent = `${scores[0]} - ${scores[1]}`;
+  navContent.querySelector(".nav-p1-name").textContent = p1.name;
+  navContent.querySelector(".nav-p1-token").textContent = p1.token;
+  navContent.querySelector(".nav-p1-points").textContent = p1.points;
+  navContent.querySelector(".nav-p2-name").textContent = p2.name;
+  navContent.querySelector(".nav-p2-token").textContent = p2.token;
+  navContent.querySelector(".nav-p2-points").textContent = p2.points;
+}
+
+window.addEventListener('load', menu);
+
+
+
+// $(window).load(function() {
+//   $(".btn-nav").on("click tap", function() {
+//     $(".nav-content").toggleClass("showNav hideNav").removeClass("hidden");
+//     $(this).toggleClass("animated");
+//   });
+// });
+
+// function menu() {
+//   document.querySelector(".nav-content").classList.toggle("");
+// }
+
+document.querySelector(".btn-nav").addEventListener("click", menu)

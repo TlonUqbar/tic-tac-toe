@@ -61,8 +61,8 @@ const Board = ( function GameBoard() {
 
 // Players Factory wrapped in IIFE
 const Players = (function Players() {
-  const players = [{name: "Player 1", token: "O", type: "Human"}, 
-                   {name: "Player 2", token: "X", type: "Computer"}]
+  const players = [{name: "Player 1", token: "O", type: "Human", points: "0"}, 
+                   {name: "Player 2", token: "X", type: "Computer", points: "0"}]
   
   const getPlayers = () => players;
   
@@ -93,10 +93,12 @@ const Score = ( function ScoreBoard() {
   const updateScore = (player) => {
     if( player.name === scores[0].name ) {
       scores[0].points = scores[0].points + 1; 
+      Players.getPlayers()[0].points =  ( scores[0].points )
       globalScore[0] = ( scores[0].points );
       winner = player;
     } else {
       scores[1].points = scores[1].points + 1;
+      Players.getPlayers()[1].points =  ( scores[1].points )
       globalScore[1] = ( scores[1].points );
       winner = player;
     }
